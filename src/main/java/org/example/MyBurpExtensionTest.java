@@ -11,15 +11,18 @@ public class MyBurpExtensionTest implements BurpExtension {
         montoyaApi.extension().setName("POSTtoGET");
         montoyaApi.logging().logToOutput("test log entry 1");
 
-
-
         String hash = "";
         if (montoyaApi.persistence().preferences().stringKeys().contains("storedHash")){
             hash = montoyaApi.persistence().preferences().getString("storedHash");
         }
 
-        MyFIrstHTTPHandler handler = new MyFIrstHTTPHandler(hash);
+        MyUserInterface ui = new MyUserInterface();
+        MAPI.getINSTANCE().userInterface().registerSuiteTab("PostToGet Analyzer", ui.getUI());
+        ui.setHashFieldTxt(hash); //initialize with the current hash variable value
+
+        MyFIrstHTTPHandler handler = new MyFIrstHTTPHandler(hash, ui);
         montoyaApi.http().registerHttpHandler(handler);
+        ui.setHTTPHandler(handler);
 
         ExtensionUnloadingHandler unloadingHandler = new UnloadingHandler(handler);
         montoyaApi.extension().registerUnloadingHandler(unloadingHandler);

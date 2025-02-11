@@ -12,12 +12,13 @@ import java.util.HexFormat;
 public class MyFIrstHTTPHandler implements HttpHandler {
 
     private String hash = "";
-
+    private MyUserInterface ui;
     public String getHash() {
         return hash;
     }
-    public MyFIrstHTTPHandler(String hash){
+    public MyFIrstHTTPHandler(String hash, MyUserInterface ui){
         this.hash = hash;
+        this.ui = ui;
     }
 
     @Override
@@ -47,11 +48,16 @@ public class MyFIrstHTTPHandler implements HttpHandler {
                 MessageDigest digest = MessageDigest.getInstance("SHA-256");
                 digest.update(input.getBytes(StandardCharsets.UTF_8));
                 this.hash = HexFormat.of().formatHex(digest.digest());
-                MAPI.getINSTANCE().logging().logToOutput("last calculated hash: " + this.hash);
+                MAPI.getINSTANCE().logging().logToOutput("last generated hash: " + this.hash);
+                this.ui.setHashFieldTxt(this.hash); //updating the UI text field with the last generated hash
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException(e);
             }
         }
         return null;
+    }
+
+    public void setHash(String text) {
+        this.hash = text;
     }
 }
