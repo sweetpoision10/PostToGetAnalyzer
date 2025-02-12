@@ -1,7 +1,10 @@
 package org.example;
 
+import burp.api.montoya.core.ToolType;
 import burp.api.montoya.http.handler.*;
+import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
+import burp.api.montoya.http.message.requests.HttpTransformation;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -23,9 +26,15 @@ public class MyFIrstHTTPHandler implements HttpHandler {
 
     @Override
     public RequestToBeSentAction handleHttpRequestToBeSent(HttpRequestToBeSent httpRequestToBeSent) {
-        if(!this.hash.isEmpty() && httpRequestToBeSent.isInScope()) {
-            HttpRequest request = httpRequestToBeSent.withAddedHeader("TestHash", this.hash);
-            return RequestToBeSentAction.continueWith(request);
+        if(!this.hash.isEmpty() && httpRequestToBeSent.isInScope() && httpRequestToBeSent.toolSource().isFromTool(ToolType.PROXY) && httpRequestToBeSent.method().equals("POST")) {
+//            HttpRequest modifiedRequest = httpRequestToBeSent.withAddedHeader("TestHash", this.hash);
+            HttpRequest modifiedRequest = httpRequestToBeSent.withTransformationApplied(HttpTransformation.TOGGLE_METHOD);
+            HttpRequestResponse httpRequestResponse = MAPI.getINSTANCE().http().sendRequest(modifiedRequest);
+            MAPI.getINSTANCE().logging().logToOutput("Method: " + httpRequestToBeSent.method());
+            MAPI.getINSTANCE().logging().logToOutput("\nOriginal Request:\n" + httpRequestToBeSent);
+            MAPI.getINSTANCE().logging().logToOutput("\nModified Request:\n" + httpRequestResponse.request());
+            MAPI.getINSTANCE().logging().logToOutput("\nResponse:\n" + httpRequestResponse.response());
+            return RequestToBeSentAction.continueWith(httpRequestToBeSent);
         }
         return null;
     }
@@ -33,7 +42,7 @@ public class MyFIrstHTTPHandler implements HttpHandler {
     @Override
     public ResponseReceivedAction handleHttpResponseReceived(HttpResponseReceived httpResponseReceived) {
         String input = "";
-        if(httpResponseReceived.initiatingRequest().isInScope()){
+        if(httpResponseReceived.initiatingRequest().isInScope() && httpResponseReceived.initiatingRequest().method().equals("POST")){
             if(httpResponseReceived.hasHeader("Age")){
                 input = httpResponseReceived.headerValue("Age");
             }

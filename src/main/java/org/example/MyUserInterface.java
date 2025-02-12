@@ -10,6 +10,9 @@ public class MyUserInterface {
     private JLabel hashLabel;
     private JLabel testLabel;
     private JButton saveHashBtn;
+    private JList<String> list1;
+
+
     private MyFIrstHTTPHandler handler;
 
     public MyUserInterface() {
