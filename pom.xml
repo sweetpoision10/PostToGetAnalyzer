@@ -19,6 +19,11 @@
         <artifactId>montoya-api</artifactId>
         <version>LATEST</version>
     </dependency>
+        <dependency>
+            <groupId>net.portswigger.burp.extender</groupId>
+            <artifactId>burp-extender-api</artifactId>
+            <version>LATEST</version>
+        </dependency>
     </dependencies>
 
 </project>

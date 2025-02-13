@@ -27,13 +27,7 @@ public class MyFIrstHTTPHandler implements HttpHandler {
     @Override
     public RequestToBeSentAction handleHttpRequestToBeSent(HttpRequestToBeSent httpRequestToBeSent) {
         if(!this.hash.isEmpty() && httpRequestToBeSent.isInScope() && httpRequestToBeSent.toolSource().isFromTool(ToolType.PROXY) && httpRequestToBeSent.method().equals("POST")) {
-//            HttpRequest modifiedRequest = httpRequestToBeSent.withAddedHeader("TestHash", this.hash);
-            HttpRequest modifiedRequest = httpRequestToBeSent.withTransformationApplied(HttpTransformation.TOGGLE_METHOD);
-            HttpRequestResponse httpRequestResponse = MAPI.getINSTANCE().http().sendRequest(modifiedRequest);
-            MAPI.getINSTANCE().logging().logToOutput("Method: " + httpRequestToBeSent.method());
-            MAPI.getINSTANCE().logging().logToOutput("\nOriginal Request:\n" + httpRequestToBeSent);
-            MAPI.getINSTANCE().logging().logToOutput("\nModified Request:\n" + httpRequestResponse.request());
-            MAPI.getINSTANCE().logging().logToOutput("\nResponse:\n" + httpRequestResponse.response());
+//          HttpRequest modifiedRequest = httpRequestToBeSent.withAddedHeader("TestHash", this.hash);
             return RequestToBeSentAction.continueWith(httpRequestToBeSent);
         }
         return null;
@@ -62,6 +56,16 @@ public class MyFIrstHTTPHandler implements HttpHandler {
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException(e);
             }
+            HttpRequest originalRequest = httpResponseReceived.initiatingRequest();
+            HttpRequest modifiedRequest = originalRequest.withTransformationApplied(HttpTransformation.TOGGLE_METHOD);
+            HttpRequestResponse modifiedHttpRequestResponse = MAPI.getINSTANCE().http().sendRequest(modifiedRequest);
+            MAPI.getINSTANCE().logging().logToOutput("Method: " + originalRequest.method());
+            MAPI.getINSTANCE().logging().logToOutput("\nOriginal Request:\n" + originalRequest);
+            MAPI.getINSTANCE().logging().logToOutput("\nOriginal Response:\n" + httpResponseReceived);
+            MAPI.getINSTANCE().logging().logToOutput("\nModified Request:\n" + modifiedHttpRequestResponse.request());
+            MAPI.getINSTANCE().logging().logToOutput("\nModified Response:\n" + modifiedHttpRequestResponse.response());
+            String result = PtGUtils.analyzeResponse(httpResponseReceived, modifiedHttpRequestResponse.response());
+            MAPI.getINSTANCE().logging().logToOutput("Result: "+result);
         }
         return null;
     }
