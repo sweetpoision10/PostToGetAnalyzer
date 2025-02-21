@@ -5,11 +5,19 @@ import burp.api.montoya.http.handler.*;
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.http.message.requests.HttpTransformation;
+import burp.api.montoya.scanner.audit.issues.AuditIssue;
+import burp.api.montoya.scanner.audit.issues.AuditIssueConfidence;
+import burp.api.montoya.scanner.audit.issues.AuditIssueSeverity;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
+import java.util.List;
+
+import static burp.api.montoya.scanner.audit.issues.AuditIssue.auditIssue;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 
 
 public class MyFIrstHTTPHandler implements HttpHandler {
@@ -59,13 +67,42 @@ public class MyFIrstHTTPHandler implements HttpHandler {
             HttpRequest originalRequest = httpResponseReceived.initiatingRequest();
             HttpRequest modifiedRequest = originalRequest.withTransformationApplied(HttpTransformation.TOGGLE_METHOD);
             HttpRequestResponse modifiedHttpRequestResponse = MAPI.getINSTANCE().http().sendRequest(modifiedRequest);
-            MAPI.getINSTANCE().logging().logToOutput("Method: " + originalRequest.method());
+            MAPI.getINSTANCE().logging().logToOutput("\n\nMethod: " + originalRequest.method());
             MAPI.getINSTANCE().logging().logToOutput("\nOriginal Request:\n" + originalRequest);
             MAPI.getINSTANCE().logging().logToOutput("\nOriginal Response:\n" + httpResponseReceived);
             MAPI.getINSTANCE().logging().logToOutput("\nModified Request:\n" + modifiedHttpRequestResponse.request());
             MAPI.getINSTANCE().logging().logToOutput("\nModified Response:\n" + modifiedHttpRequestResponse.response());
             String result = PtGUtils.analyzeResponse(httpResponseReceived, modifiedHttpRequestResponse.response());
-            MAPI.getINSTANCE().logging().logToOutput("Result: "+result);
+            if(result.equals("SAME")){
+                MAPI.getINSTANCE().siteMap().add(auditIssue(
+                                "PostToGet ",
+                                "Result: " + result,
+                                null,
+                                originalRequest.url(),
+                                AuditIssueSeverity.LOW,
+                                AuditIssueConfidence.CERTAIN,
+                                null,
+                                null,
+                                AuditIssueSeverity.HIGH,
+                                HttpRequestResponse.httpRequestResponse(originalRequest, httpResponseReceived), modifiedHttpRequestResponse
+                ));
+            }
+            else if (result.equals("SIMILAR")){
+                MAPI.getINSTANCE().siteMap().add(auditIssue(
+                        "PostToGet ",
+                        "Result: " + result,
+                        null,
+                        originalRequest.url(),
+                        AuditIssueSeverity.LOW,
+                        AuditIssueConfidence.TENTATIVE,
+                        null,
+                        null,
+                        AuditIssueSeverity.LOW,
+                        HttpRequestResponse.httpRequestResponse(originalRequest, httpResponseReceived), modifiedHttpRequestResponse
+                ));
+            }
+            else {;}
+            MAPI.getINSTANCE().logging().logToOutput("\nResult: "+result);
         }
         return null;
     }
