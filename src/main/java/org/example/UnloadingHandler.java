@@ -3,6 +3,7 @@ package org.example;
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.extension.ExtensionUnloadingHandler;
 
+//currently not used
 public class UnloadingHandler implements ExtensionUnloadingHandler {
 
     private MontoyaApi api;

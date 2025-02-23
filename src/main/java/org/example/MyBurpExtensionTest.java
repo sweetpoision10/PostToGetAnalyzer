@@ -18,7 +18,7 @@ public class MyBurpExtensionTest implements BurpExtension {
 
         MyUserInterface ui = new MyUserInterface();
         MAPI.getINSTANCE().userInterface().registerSuiteTab("PostToGet Analyzer", ui.getUI());
-        ui.setHashFieldTxt(hash); //initialize with the current hash variable value
+//        ui.setHashFieldTxt(hash); //initialize with the current hash variable value
 
         MyFIrstHTTPHandler handler = new MyFIrstHTTPHandler(hash, ui);
         montoyaApi.http().registerHttpHandler(handler);

@@ -2,6 +2,7 @@ package org.example;
 
 import burp.api.montoya.MontoyaApi;
 
+//to work with single instance of the Burp API and not having to create an instance again and again.
 public  final  class MAPI {
 
     private static MontoyaApi INSTANCE;
