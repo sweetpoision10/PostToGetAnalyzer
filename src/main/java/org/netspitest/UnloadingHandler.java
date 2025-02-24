@@ -1,4 +1,4 @@
-package org.example;
+package org.netspitest;
 
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.extension.ExtensionUnloadingHandler;
@@ -7,9 +7,9 @@ import burp.api.montoya.extension.ExtensionUnloadingHandler;
 public class UnloadingHandler implements ExtensionUnloadingHandler {
 
     private MontoyaApi api;
-    private MyFIrstHTTPHandler handler;
+    private PostToGetHttpHandler handler;
 
-    public UnloadingHandler(MyFIrstHTTPHandler handler){
+    public UnloadingHandler(PostToGetHttpHandler handler){
         this.api = MAPI.getINSTANCE();
         this.handler = handler;
     }

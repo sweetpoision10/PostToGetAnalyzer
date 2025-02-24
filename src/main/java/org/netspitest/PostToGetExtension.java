@@ -1,9 +1,9 @@
-package org.example;
+package org.netspitest;
 import  burp.api.montoya.MontoyaApi;
 import  burp.api.montoya.BurpExtension;
 import burp.api.montoya.extension.ExtensionUnloadingHandler;
 
-public class MyBurpExtensionTest implements BurpExtension {
+public class PostToGetExtension implements BurpExtension {
     @Override
     public void initialize(MontoyaApi montoyaApi) {
         MAPI.initialize(montoyaApi); //only one instance can ever be created. this will also help in reducing the passing of the api instance in every method
@@ -16,11 +16,11 @@ public class MyBurpExtensionTest implements BurpExtension {
             hash = montoyaApi.persistence().preferences().getString("storedHash");
         }
 
-        MyUserInterface ui = new MyUserInterface();
+        PtGInterface ui = new PtGInterface();
         MAPI.getINSTANCE().userInterface().registerSuiteTab("PostToGet Analyzer", ui.getUI());
 //        ui.setHashFieldTxt(hash); //initialize with the current hash variable value
 
-        MyFIrstHTTPHandler handler = new MyFIrstHTTPHandler(hash, ui);
+        PostToGetHttpHandler handler = new PostToGetHttpHandler(hash, ui);
         montoyaApi.http().registerHttpHandler(handler);
         ui.setHTTPHandler(handler);
 

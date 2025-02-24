@@ -1,12 +1,12 @@
-package org.example;
+package org.netspitest;
 
-import org.example.utils.PtGUtils;
+import org.netspitest.utils.PtGUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MyUserInterface {
+public class PtGInterface {
     private JPanel ui;
 //    private JTextField hashFieldTxt;
 //    private JButton saveHashBtn;
@@ -17,9 +17,9 @@ public class MyUserInterface {
     private JButton buttonOnOff;
 
 
-    private MyFIrstHTTPHandler handler;
+    private PostToGetHttpHandler handler;
 
-    public MyUserInterface() {
+    public PtGInterface() {
         this.configDuplicateCheckBox.setSelected(true);
         this.configInScopeCheckBox.setSelected(true);
         this.buttonOnOff.addActionListener(new ActionListener() {
@@ -66,7 +66,7 @@ public class MyUserInterface {
 //        this.hashFieldTxt.setText(hash);
 //    }
 
-    public void setHTTPHandler(MyFIrstHTTPHandler handler) {
+    public void setHTTPHandler(PostToGetHttpHandler handler) {
         this.handler = handler;
     }
 }

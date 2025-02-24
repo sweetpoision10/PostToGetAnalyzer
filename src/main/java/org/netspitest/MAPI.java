@@ -1,4 +1,4 @@
-package org.example;
+package org.netspitest;
 
 import burp.api.montoya.MontoyaApi;
 

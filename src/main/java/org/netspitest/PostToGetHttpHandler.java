@@ -1,4 +1,4 @@
-package org.example;
+package org.netspitest;
 
 import burp.api.montoya.core.ToolType;
 import burp.api.montoya.http.handler.*;
@@ -8,29 +8,20 @@ import burp.api.montoya.http.message.requests.HttpTransformation;
 import burp.api.montoya.scanner.audit.issues.AuditIssue;
 import burp.api.montoya.scanner.audit.issues.AuditIssueConfidence;
 import burp.api.montoya.scanner.audit.issues.AuditIssueSeverity;
-import burp.api.montoya.sitemap.SiteMapFilter;
-import org.example.utils.BypassConstants;
-import org.example.utils.PtGUtils;
-
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.HexFormat;
-import java.util.List;
+import org.netspitest.utils.BypassConstants;
+import org.netspitest.utils.PtGUtils;
 
 import static burp.api.montoya.scanner.audit.issues.AuditIssue.auditIssue;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 
 
-public class MyFIrstHTTPHandler implements HttpHandler {
+public class PostToGetHttpHandler implements HttpHandler {
 
     private String hash = "";
-    private MyUserInterface ui;
+    private PtGInterface ui;
     public String getHash() {
         return hash;
     }
-    public MyFIrstHTTPHandler(String hash, MyUserInterface ui){
+    public PostToGetHttpHandler(String hash, PtGInterface ui){
         this.hash = hash;
         this.ui = ui;
     }
@@ -45,7 +36,7 @@ public class MyFIrstHTTPHandler implements HttpHandler {
 
     @Override
     public ResponseReceivedAction handleHttpResponseReceived(HttpResponseReceived httpResponseReceived) {
-        //respect in-scope if checkbox is on
+        //respect in-scope if checkbox is checked
         if(PtGUtils.isOnlyInScope()) {
             if (httpResponseReceived.initiatingRequest().isInScope() && httpResponseReceived.initiatingRequest().method().equals("POST") && httpResponseReceived.toolSource().isFromTool(ToolType.PROXY) && PtGUtils.isRunning()) {
                 HttpRequest originalRequest = httpResponseReceived.initiatingRequest();
@@ -70,7 +61,7 @@ public class MyFIrstHTTPHandler implements HttpHandler {
 
                 if (result.equals(BypassConstants.SAME)) {
                     AuditIssue auditIssue = auditIssue(
-                            "PostToGet ",
+                            "PostToGet",
                             "Result: " + result,
                             null,
                             originalRequest.url(),
@@ -84,7 +75,7 @@ public class MyFIrstHTTPHandler implements HttpHandler {
                     MAPI.getINSTANCE().siteMap().add(auditIssue);
                 } else if (result.equals(BypassConstants.SIMILAR)) {
                     AuditIssue auditIssue = auditIssue(
-                            "PostToGet ",
+                            "PostToGet",
                             "Result: " + result,
                             null,
                             originalRequest.url(),

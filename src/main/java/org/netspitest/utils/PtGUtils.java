@@ -1,12 +1,8 @@
-package org.example.utils;
+package org.netspitest.utils;
 
 import burp.api.montoya.http.message.responses.HttpResponse;
-import burp.api.montoya.scanner.audit.issues.AuditIssue;
-import org.example.MyUserInterface;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 public final class PtGUtils {
     /*
