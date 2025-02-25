@@ -1,14 +1,15 @@
 package org.netspitest.utils;
 
 import burp.api.montoya.http.message.responses.HttpResponse;
+import burp.api.montoya.scanner.audit.issues.AuditIssue;
+import org.netspitest.MAPI;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public final class PtGUtils {
-    /*
-     * POST to GET is possible if : - Both Original and Modified Responses have same Response Body and the same Status Code
-     * POST to GET is potentially possible if: - Both Original and Modified Responses have same Response Codes and the difference in response body length is +-5% of the original response body length
-    */
+
     private static boolean isRunning = false;
 
     //false for now. will add this feature later using SiteMapNode
@@ -16,6 +17,12 @@ public final class PtGUtils {
 
     private static boolean onlyInScope = true;
 
+    private static List<String> issuesURLs = new ArrayList<String>();
+
+    /*
+     * POST to GET is possible if : - Both Original and Modified Responses have same Response Body and the same Status Code
+     * POST to GET is potentially possible if: - Both Original and Modified Responses have same Response Codes and the difference in response body length is +-5% of the original response body length
+     */
    public static BypassConstants analyzeResponse(
                                         HttpResponse originalResponse, HttpResponse modifiedResponse) {
         byte[] originalResponseBody = Arrays.copyOfRange(originalResponse.toByteArray().getBytes(), originalResponse.bodyOffset(),
@@ -60,5 +67,35 @@ public final class PtGUtils {
 
     public static void setOnlyInScope(boolean onlyInScope) {
         PtGUtils.onlyInScope = onlyInScope;
+    }
+
+    public static String getURLWithoutParams(String url){
+       String newurl = url.split("\\?")[0];
+       return newurl;
+    }
+
+    public static boolean isIssueAlreadyReported(AuditIssue issue){
+       for (int i=0; i < PtGUtils.issuesURLs.size(); i++){
+           if(issuesURLs.get(i).equals(PtGUtils.getURLWithoutParams(issue.baseUrl()))){
+               MAPI.getINSTANCE().logging().logToOutput("\ncomparing :" + PtGUtils.getURLWithoutParams(issue.baseUrl()) + " with list element " + issuesURLs.get(i));
+               return true;
+           }
+        }
+       return false;
+    }
+
+    public static void addIssueToIssuesList(AuditIssue issue){
+       MAPI.getINSTANCE().siteMap().issues().add(issue);
+    }
+
+    public static void addIssueToUniqueIssuesList(AuditIssue issue){
+       Boolean result =  !(PtGUtils.isIssueAlreadyReported(issue)) ? issuesURLs.add(PtGUtils.getURLWithoutParams(issue.baseUrl())) : false;
+       if (result) {
+           MAPI.getINSTANCE().siteMap().issues().add(issue);
+           MAPI.getINSTANCE().logging().logToOutput("\nNew URL added to issues :" + PtGUtils.getURLWithoutParams(issue.baseUrl()));
+       }
+       else{
+           MAPI.getINSTANCE().logging().logToOutput("\n URL already exists in issues :" + PtGUtils.getURLWithoutParams(issue.baseUrl()));
+       }
     }
 }

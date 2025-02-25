@@ -50,12 +50,12 @@ public class PostToGetHttpHandler implements HttpHandler {
                 HttpRequestResponse modifiedHttpRequestResponse = MAPI.getINSTANCE().http().sendRequest(modifiedRequest);
 
                 MAPI.getINSTANCE().logging().logToOutput("\n\nMethod: " + originalRequest.method());
-                MAPI.getINSTANCE().logging().logToOutput("\nOriginal Request:\n" + originalRequest);
-                MAPI.getINSTANCE().logging().logToOutput("\nOriginal Response:\n" + httpResponseReceived);
-                MAPI.getINSTANCE().logging().logToOutput("\nOriginal Repeated Request:\n" + originalRepeatedHttpRequestResponse.request());
-                MAPI.getINSTANCE().logging().logToOutput("\nOriginal Repeated Response:\n" + originalRepeatedHttpRequestResponse.response());
-                MAPI.getINSTANCE().logging().logToOutput("\nModified Request:\n" + modifiedHttpRequestResponse.request());
-                MAPI.getINSTANCE().logging().logToOutput("\nModified Response:\n" + modifiedHttpRequestResponse.response());
+//                MAPI.getINSTANCE().logging().logToOutput("\nOriginal Request:\n" + originalRequest);
+//                MAPI.getINSTANCE().logging().logToOutput("\nOriginal Response:\n" + httpResponseReceived);
+                MAPI.getINSTANCE().logging().logToOutput("\nOriginal Repeated Request:\n" + originalRepeatedHttpRequestResponse.request().url());
+//                MAPI.getINSTANCE().logging().logToOutput("\nOriginal Repeated Response:\n" + originalRepeatedHttpRequestResponse.response());
+                MAPI.getINSTANCE().logging().logToOutput("\nModified Request:\n" + modifiedHttpRequestResponse.request().url());
+//                MAPI.getINSTANCE().logging().logToOutput("\nModified Response:\n" + modifiedHttpRequestResponse.response());
 
                 BypassConstants result = PtGUtils.analyzeResponse(originalRepeatedHttpRequestResponse.response(), modifiedHttpRequestResponse.response());
 
@@ -72,7 +72,11 @@ public class PostToGetHttpHandler implements HttpHandler {
                             AuditIssueSeverity.HIGH,
                             HttpRequestResponse.httpRequestResponse(originalRequest, httpResponseReceived), modifiedHttpRequestResponse
                     );
-                    MAPI.getINSTANCE().siteMap().add(auditIssue);
+
+                    if(!PtGUtils.isIssueAlreadyReported(auditIssue)) {
+                        PtGUtils.addIssueToUniqueIssuesList(auditIssue);
+//                        MAPI.getINSTANCE().siteMap().add(auditIssue);
+                    }
                 } else if (result.equals(BypassConstants.SIMILAR)) {
                     AuditIssue auditIssue = auditIssue(
                             "PostToGet",
@@ -86,7 +90,10 @@ public class PostToGetHttpHandler implements HttpHandler {
                             AuditIssueSeverity.LOW,
                             HttpRequestResponse.httpRequestResponse(originalRequest, httpResponseReceived), modifiedHttpRequestResponse
                     );
-                    MAPI.getINSTANCE().siteMap().add(auditIssue);
+                    if(!PtGUtils.isIssueAlreadyReported(auditIssue)) {
+//                        PtGUtils.addIssueToUniqueIssuesList(auditIssue);
+                        MAPI.getINSTANCE().siteMap().add(auditIssue);
+                    }
                 } else {
                     ;
                 }
@@ -130,7 +137,10 @@ public class PostToGetHttpHandler implements HttpHandler {
                             AuditIssueSeverity.HIGH,
                             HttpRequestResponse.httpRequestResponse(originalRequest, httpResponseReceived), modifiedHttpRequestResponse
                     );
-                    MAPI.getINSTANCE().siteMap().add(auditIssue);
+                    if(!PtGUtils.isIssueAlreadyReported(auditIssue)) {
+                        PtGUtils.addIssueToUniqueIssuesList(auditIssue);
+//                        MAPI.getINSTANCE().siteMap().add(auditIssue);
+                    }
                 } else if (result.equals(BypassConstants.SIMILAR)) {
                     AuditIssue auditIssue = auditIssue(
                             "PostToGet ",
@@ -144,7 +154,10 @@ public class PostToGetHttpHandler implements HttpHandler {
                             AuditIssueSeverity.LOW,
                             HttpRequestResponse.httpRequestResponse(originalRequest, httpResponseReceived), modifiedHttpRequestResponse
                     );
-                    MAPI.getINSTANCE().siteMap().add(auditIssue);
+                    if(!PtGUtils.isIssueAlreadyReported(auditIssue)) {
+                        PtGUtils.addIssueToUniqueIssuesList(auditIssue);
+//                        MAPI.getINSTANCE().siteMap().add(auditIssue);
+                    }
                 } else {
                     ;
                 }
