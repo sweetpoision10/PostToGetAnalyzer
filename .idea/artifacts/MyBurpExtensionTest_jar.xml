@@ -2,7 +2,7 @@
   <artifact type="jar" build-on-make="true" name="MyBurpExtensionTest:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/MyBurpExtensionTest_jar</output-path>
     <root id="archive" name="MyBurpExtensionTest.jar">
-      <element id="module-output" name="MyBurpExtensionTest" />
+      <element id="module-output" name="PostToGetAnalyzer" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/portswigger/burp/extensions/montoya-api/2024.7/montoya-api-2024.7.jar" path-in-jar="/" />
     </root>
   </artifact>
