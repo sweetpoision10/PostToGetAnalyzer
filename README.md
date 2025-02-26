@@ -8,3 +8,4 @@ otherwise, result will be marked as DIFFERENT.
 
 The SAME and SIMILAR results will be added to SiteMap Issues under the name PostToGet.
 
+By default, only in-scope URLs will be processed.
