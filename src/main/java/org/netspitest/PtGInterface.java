@@ -20,7 +20,7 @@ public class PtGInterface {
     private PostToGetHttpHandler handler;
 
     public PtGInterface() {
-        this.configDuplicateCheckBox.setSelected(true);
+        this.configDuplicateCheckBox.setSelected(false);
         this.configInScopeCheckBox.setSelected(true);
 
 
