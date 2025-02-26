@@ -8,5 +8,3 @@ otherwise, result will be marked as DIFFERENT.
 
 The SAME and SIMILAR results will be added to SiteMap Issues under the name PostToGet.
 
-Ongoing efforts - 
-Adding the checkbox for allowing/not allowing Duplicate URLs under in Sitemap issues.
