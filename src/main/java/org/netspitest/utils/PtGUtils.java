@@ -53,19 +53,19 @@ public final class PtGUtils {
    }
 
 
-    public static boolean isDuplicateURLs() {
+    public static boolean isDuplicateURLCheckBoxChecked() {
         return duplicateURLs;
     }
 
-    public static void setDuplicateURLs(boolean duplicateURLs) {
+    public static void setDuplicateURLCheckBox(boolean duplicateURLs) {
         PtGUtils.duplicateURLs = duplicateURLs;
     }
 
-    public static boolean isOnlyInScope() {
+    public static boolean isOnlyInScopeCheckBoxChecked() {
         return onlyInScope;
     }
 
-    public static void setOnlyInScope(boolean onlyInScope) {
+    public static void setOnlyInScopeCheckBox(boolean onlyInScope) {
         PtGUtils.onlyInScope = onlyInScope;
     }
 
@@ -85,7 +85,7 @@ public final class PtGUtils {
     }
 
     public static void addIssueToIssuesList(AuditIssue issue){
-       MAPI.getINSTANCE().siteMap().issues().add(issue);
+//       MAPI.getINSTANCE().siteMap().issues().add(issue);
     }
 
     public static void addIssueToUniqueIssuesList(AuditIssue issue){

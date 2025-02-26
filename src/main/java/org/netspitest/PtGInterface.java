@@ -22,6 +22,8 @@ public class PtGInterface {
     public PtGInterface() {
         this.configDuplicateCheckBox.setSelected(true);
         this.configInScopeCheckBox.setSelected(true);
+
+
         this.buttonOnOff.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,10 +51,22 @@ public class PtGInterface {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (configInScopeCheckBox.isSelected()){
-                    PtGUtils.setOnlyInScope(true);
+                    PtGUtils.setOnlyInScopeCheckBox(true);
                 }
                 else{
-                    PtGUtils.setOnlyInScope(false);
+                    PtGUtils.setOnlyInScopeCheckBox(false);
+                }
+            }
+        });
+
+        this.configDuplicateCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (configDuplicateCheckBox.isSelected()){
+                    PtGUtils.setDuplicateURLCheckBox(true);
+                }
+                else{
+                    PtGUtils.setDuplicateURLCheckBox(false);
                 }
             }
         });
