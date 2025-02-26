@@ -75,7 +75,7 @@ public class PostToGetHttpHandler implements HttpHandler {
 
                     if(!PtGUtils.isIssueAlreadyReported(auditIssue)) {
                         PtGUtils.addIssueToUniqueIssuesList(auditIssue);
-//                        MAPI.getINSTANCE().siteMap().add(auditIssue);
+                        MAPI.getINSTANCE().siteMap().add(auditIssue);
                     }
                 } else if (result.equals(BypassConstants.SIMILAR)) {
                     AuditIssue auditIssue = auditIssue(
@@ -91,7 +91,7 @@ public class PostToGetHttpHandler implements HttpHandler {
                             HttpRequestResponse.httpRequestResponse(originalRequest, httpResponseReceived), modifiedHttpRequestResponse
                     );
                     if(!PtGUtils.isIssueAlreadyReported(auditIssue)) {
-//                        PtGUtils.addIssueToUniqueIssuesList(auditIssue);
+                        PtGUtils.addIssueToUniqueIssuesList(auditIssue);
                         MAPI.getINSTANCE().siteMap().add(auditIssue);
                     }
                 } else {
@@ -139,7 +139,7 @@ public class PostToGetHttpHandler implements HttpHandler {
                     );
                     if(!PtGUtils.isIssueAlreadyReported(auditIssue)) {
                         PtGUtils.addIssueToUniqueIssuesList(auditIssue);
-//                        MAPI.getINSTANCE().siteMap().add(auditIssue);
+                        MAPI.getINSTANCE().siteMap().add(auditIssue);
                     }
                 } else if (result.equals(BypassConstants.SIMILAR)) {
                     AuditIssue auditIssue = auditIssue(
@@ -156,7 +156,7 @@ public class PostToGetHttpHandler implements HttpHandler {
                     );
                     if(!PtGUtils.isIssueAlreadyReported(auditIssue)) {
                         PtGUtils.addIssueToUniqueIssuesList(auditIssue);
-//                        MAPI.getINSTANCE().siteMap().add(auditIssue);
+                        MAPI.getINSTANCE().siteMap().add(auditIssue);
                     }
                 } else {
                     ;

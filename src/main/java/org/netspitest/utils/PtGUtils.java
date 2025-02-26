@@ -89,9 +89,8 @@ public final class PtGUtils {
     }
 
     public static void addIssueToUniqueIssuesList(AuditIssue issue){
-       Boolean result =  !(PtGUtils.isIssueAlreadyReported(issue)) ? issuesURLs.add(PtGUtils.getURLWithoutParams(issue.baseUrl())) : false;
+       Boolean result =  !(PtGUtils.isIssueAlreadyReported(issue)) ? issuesURLs.add(PtGUtils.getURLWithoutParams(issue.baseUrl())): false;
        if (result) {
-           MAPI.getINSTANCE().siteMap().issues().add(issue);
            MAPI.getINSTANCE().logging().logToOutput("\nNew URL added to issues :" + PtGUtils.getURLWithoutParams(issue.baseUrl()));
        }
        else{
