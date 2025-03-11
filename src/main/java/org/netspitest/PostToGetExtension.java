@@ -9,7 +9,7 @@ public class PostToGetExtension implements BurpExtension {
         MAPI.initialize(montoyaApi); //only one instance can ever be created. this will also help in reducing the passing of the api instance in every method
 
         montoyaApi.extension().setName("POSTtoGET");
-        montoyaApi.logging().logToOutput("test log entry 1");
+
 
         String hash = "";
         if (montoyaApi.persistence().preferences().stringKeys().contains("storedHash")){
