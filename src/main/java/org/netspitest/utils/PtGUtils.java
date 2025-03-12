@@ -77,7 +77,6 @@ public final class PtGUtils {
     public static boolean isIssueAlreadyReported(AuditIssue issue){
        for (int i=0; i < PtGUtils.issuesURLs.size(); i++){
            if(issuesURLs.get(i).equals(PtGUtils.getURLWithoutParams(issue.baseUrl()))){
-               MAPI.getINSTANCE().logging().logToOutput("\ncomparing :" + PtGUtils.getURLWithoutParams(issue.baseUrl()) + " with list element " + issuesURLs.get(i));
                return true;
            }
         }

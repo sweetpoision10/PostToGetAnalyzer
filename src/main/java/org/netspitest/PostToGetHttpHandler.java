@@ -16,21 +16,17 @@ import static burp.api.montoya.scanner.audit.issues.AuditIssue.auditIssue;
 
 public class PostToGetHttpHandler implements HttpHandler {
 
-    private String hash = "";
+
     private PtGInterface ui;
 
-    public String getHash() {
-        return hash;
-    }
 
-    public PostToGetHttpHandler(String hash, PtGInterface ui) {
-        this.hash = hash;
+    public PostToGetHttpHandler(PtGInterface ui) {
         this.ui = ui;
     }
 
     @Override
     public RequestToBeSentAction handleHttpRequestToBeSent(HttpRequestToBeSent httpRequestToBeSent) {
-        if (!this.hash.isEmpty() && httpRequestToBeSent.isInScope() && httpRequestToBeSent.toolSource().isFromTool(ToolType.PROXY) && httpRequestToBeSent.method().equals("POST") && PtGUtils.isRunning()) {
+        if (httpRequestToBeSent.isInScope() && httpRequestToBeSent.toolSource().isFromTool(ToolType.PROXY) && httpRequestToBeSent.method().equals("POST") && PtGUtils.isRunning()) {
             return RequestToBeSentAction.continueWith(httpRequestToBeSent);
         }
         return null;
@@ -54,12 +50,8 @@ public class PostToGetHttpHandler implements HttpHandler {
             HttpRequestResponse originalRepeatedHttpRequestResponse = MAPI.getINSTANCE().http().sendRequest(originalRequest);
             HttpRequestResponse modifiedHttpRequestResponse = MAPI.getINSTANCE().http().sendRequest(modifiedRequest);
 
-            MAPI.getINSTANCE().logging().logToOutput("\n\nMethod: " + originalRequest.method());
-            MAPI.getINSTANCE().logging().logToOutput("\nOriginal Repeated Request:\n" + originalRequest.url());
-            MAPI.getINSTANCE().logging().logToOutput("\nModified Request:\n" + modifiedHttpRequestResponse.request().url());
-
             BypassConstants result = PtGUtils.analyzeResponse(originalRepeatedHttpRequestResponse.response(), modifiedHttpRequestResponse.response());
-            MAPI.getINSTANCE().logging().logToOutput("\nResult: " + result);
+
             if (result.equals(BypassConstants.SAME) || (result.equals(BypassConstants.SIMILAR))) {
                 AuditIssueConfidence confidence = (result.equals(BypassConstants.SAME)) ? AuditIssueConfidence.CERTAIN : AuditIssueConfidence.TENTATIVE;
                 AuditIssue auditIssue = auditIssue(
@@ -89,9 +81,5 @@ public class PostToGetHttpHandler implements HttpHandler {
         }
         return null;
     }
-
-        public void setHash(String text){
-            this.hash = text;
-        }
-    }
+}
 

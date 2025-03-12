@@ -8,8 +8,6 @@ import java.awt.event.ActionListener;
 
 public class PtGInterface {
     private JPanel ui;
-//    private JTextField hashFieldTxt;
-//    private JButton saveHashBtn;
     private JLabel configDuplicateLabel;
     private JCheckBox configDuplicateCheckBox;
     private JLabel configInScopeLabel;
@@ -39,12 +37,7 @@ public class PtGInterface {
                     buttonOnOff.setText("Running");
                 }
         }
-        ;
-//        saveHashBtn.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                handler.setHash(hashFieldTxt.getText());
-//            }
+
         });
 
         this.configInScopeCheckBox.addActionListener(new ActionListener() {
@@ -76,9 +69,6 @@ public class PtGInterface {
         return this.ui;
     }
 
-//    public void setHashFieldTxt(String hash) {
-//        this.hashFieldTxt.setText(hash);
-//    }
 
     public void setHTTPHandler(PostToGetHttpHandler handler) {
         this.handler = handler;

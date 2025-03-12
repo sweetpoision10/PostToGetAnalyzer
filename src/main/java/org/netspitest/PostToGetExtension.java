@@ -11,20 +11,12 @@ public class PostToGetExtension implements BurpExtension {
         montoyaApi.extension().setName("POSTtoGET");
 
 
-        String hash = "";
-        if (montoyaApi.persistence().preferences().stringKeys().contains("storedHash")){
-            hash = montoyaApi.persistence().preferences().getString("storedHash");
-        }
-
         PtGInterface ui = new PtGInterface();
         MAPI.getINSTANCE().userInterface().registerSuiteTab("PostToGet Analyzer", ui.getUI());
-//        ui.setHashFieldTxt(hash); //initialize with the current hash variable value
 
-        PostToGetHttpHandler handler = new PostToGetHttpHandler(hash, ui);
+        PostToGetHttpHandler handler = new PostToGetHttpHandler(ui);
         montoyaApi.http().registerHttpHandler(handler);
         ui.setHTTPHandler(handler);
 
-        ExtensionUnloadingHandler unloadingHandler = new UnloadingHandler(handler);
-        montoyaApi.extension().registerUnloadingHandler(unloadingHandler);
     }
 }
